@@ -1,6 +1,8 @@
 import Picture from "../../models/profilePicture.js";
+import User from "../../models/user.js";
 import path from "path";
 import multer from "multer";
+import mongoose from "mongoose";
 
 const Storage = multer.diskStorage({
   destination: "./public/uploads/",
@@ -31,7 +33,7 @@ const upload = multer({
 }).single("TestImage");
 
 const picture = async (req, res) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((reject, resolve) => {
     try {
       upload(req, res, (err) => {
         if (err instanceof multer.MulterError) {
@@ -41,11 +43,22 @@ const picture = async (req, res) => {
         } else {
           const newImage = new Picture({
             image: req.file.filename,
+            userId: req.body.userId,
           });
           newImage
             .save()
-            .then(() => {
-              return resolve(res.send("successfully uploaded"));
+            .then(async () => {
+              console.log(newImage._id);
+              const updated = await User.updateOne(
+                { _id: req.body.userId },
+                {
+                  $set: {
+                    pictureId: newImage._id,
+                  },
+                }
+              );
+              console.log(updated);
+              return resolve(res.send("Successfully upload"));
             })
             .catch((error) => {
               return reject(error);

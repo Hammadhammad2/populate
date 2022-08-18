@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
+import Profile from "../models/profile.js";
 
 const userResolver = async (_, { newUser }) => {
   try {
@@ -12,14 +13,14 @@ const userResolver = async (_, { newUser }) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
+
     const result = await User.create({
       firstname,
       lastname,
       email,
       password: hashedPassword,
-      pictureId,
-      profileId,
     });
+
     console.log("User created", result);
     return result;
   } catch (err) {

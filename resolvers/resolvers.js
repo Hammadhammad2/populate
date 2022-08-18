@@ -1,10 +1,14 @@
 import userResolver from "./userResolver.js";
 import profileResolver from "./profileResolver.js";
+import getUserResolver from "./getuserResolver.js";
 
 const resolvers = {
+  Query: {
+    getUser: getUserResolver,
+  },
   Mutation: {
-    UserResolver: userResolver,
-    ProfileResolver: profileResolver,
+    addUser: userResolver,
+    addProfileInfo: profileResolver,
   },
 };
 

@@ -2,11 +2,12 @@ import { gql } from "apollo-server";
 
 const typeDefs = gql`
   type Query {
-    users: [User]
+    getUser(userID: String): UserInfo
   }
+
   type Mutation {
-    UserResolver(newUser: UserInput): User
-    ProfileResolver(newUser: profileInput): ProfileInfo
+    addUser(newUser: UserInput): User
+    addProfileInfo(newUser: profileInput): ProfileInfo
   }
 
   type User {
@@ -14,10 +15,24 @@ const typeDefs = gql`
     lastname: String
     email: String!
     password: String!
-    pictureId: ID
-    profileId: ID
+    pictureId: String
+    profileId: String
+  }
+
+  type UserInfo {
+    firstname: String
+    lastname: String
+    email: String!
+    password: String!
+    profileId: ProfileInfo
+    pictureId: ImageInfo
+  }
+  type ImageInfo {
+    id: ID
+    image: String
   }
   type ProfileInfo {
+    userId: ID
     age: Int
     address: String
     gender: String
@@ -31,12 +46,12 @@ const typeDefs = gql`
     lastname: String
     email: String!
     password: String!
-    pictureId: ID
-    profileId: ID
+    profileId: String
+    pictureId: String
   }
 
   input profileInput {
-    _id: ID
+    userId: String
     age: Int
     address: String
     gender: String
