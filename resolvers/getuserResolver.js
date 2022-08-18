@@ -12,8 +12,7 @@ const getUserResolver = async (_, { userID }) => {
     }).populate("profileId pictureId");
     return user;
   } catch (err) {
-    console.log(err);
-    return err;
+    throw new Error("User does not exists");
   }
 };
 

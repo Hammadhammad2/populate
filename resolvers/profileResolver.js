@@ -10,7 +10,6 @@ const profileResolver = async (_, { newUser }) => {
     });
     console.log("profile created", result);
     console.log(result._id);
-
     const update = await User.updateOne(
       { _id: id },
       {
@@ -22,7 +21,7 @@ const profileResolver = async (_, { newUser }) => {
     console.log(update);
     return result;
   } catch (err) {
-    return err;
+    throw new Error(err);
   }
 };
 

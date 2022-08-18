@@ -24,7 +24,7 @@ const userResolver = async (_, { newUser }) => {
     console.log("User created", result);
     return result;
   } catch (err) {
-    return err;
+    throw new Error(err);
   }
 };
 
